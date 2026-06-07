@@ -10,7 +10,15 @@ export default function MapView({ parcels, selectedParcel, onSelect }: Props) {
   useEffect(() => {
     const map = L.map('map', { zoomControl: false, attributionControl: false }).setView([24.772, 46.64], 13);
     L.control.zoom({ position: 'bottomleft' }).addTo(map);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 20 }).addTo(map);
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 20,
+      className: 'imagery-tiles'
+    }).addTo(map);
+    L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 20,
+      opacity: 0.78,
+      className: 'imagery-labels'
+    }).addTo(map);
 
     const zoningGroup = L.layerGroup().addTo(map);
     zoningZones.forEach((z) => {

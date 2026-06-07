@@ -60,7 +60,7 @@ export default function App() {
   }
 
   function sendMessage(text: string) {
-    const reply = answerQuestion(text, selectedParcel, analysis);
+    const reply = answerQuestion(text, selectedParcel, analysis, parcels);
     setMessages((prev): ChatMessage[] => [...prev, { role: 'user' as const, content: text }, { role: 'assistant' as const, content: reply }].slice(-10));
   }
 

@@ -3,7 +3,7 @@ import { Bot, Send, Sparkles } from 'lucide-react';
 import type { ChatMessage } from '../types';
 
 interface Props { messages: ChatMessage[]; onSend: (text: string) => void; }
-const suggestions = ['حلل الأرض', 'أعطني ملخص للإدارة', 'ما المخاطر؟', 'ليش الدرجة كذا؟'];
+const suggestions = ['حلل الأرض', 'عطني أفضل أرض', 'قارن أفضل ٥ قطع', 'أقل مخاطر'];
 
 export default function AiChat({ messages, onSend }: Props) {
   const [text, setText] = useState('');
