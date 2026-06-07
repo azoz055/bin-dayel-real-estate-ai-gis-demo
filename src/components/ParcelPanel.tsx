@@ -18,7 +18,7 @@ export default function ParcelPanel({ parcel, analysis, onReport }: Props) {
       </div>
       <div className="metrics-grid">
         <Metric icon={LandPlot} label="المساحة" value={`${parcel.areaSqm.toLocaleString('ar-SA')} م²`} color="#38bdf8" />
-        <Metric icon={TrendingUp} label="القيمة ديمو" value={formatSar(parcel.estimatedValueSar)} color="#22c55e" />
+        <Metric icon={TrendingUp} label="القيمة التقديرية" value={formatSar(parcel.estimatedValueSar)} color="#22c55e" />
         <Metric icon={Navigation} label="الطريق" value={`${parcel.distanceToMainRoadM.toLocaleString('ar-SA')} م`} color="#f59e0b" />
         <Metric icon={Shield} label="المخاطر" value={parcel.riskLevel} color="#ef4444" />
       </div>

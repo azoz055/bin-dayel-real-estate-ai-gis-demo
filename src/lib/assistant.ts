@@ -11,13 +11,14 @@ export function answerQuestion(question: string, parcel: Parcel | null, analysis
   if (!parcel || !analysis) return 'حدد قطعة أرض من الخريطة أولاً، وبعدها أقدر أحللها لك وأعطيك ملخص تنفيذي ومخاطر وفرص التطوير.';
 
   if (includesAny(q, ['ملخص', 'ادارة', 'الإدارة', 'تنفيذي', 'مختصر'])) {
-    return `${analysis.executiveBrief}\n\nصياغة للعرض: هذا دمو يوضح كيف يمكن داخل المنظومة المغلقة ربط ArcGIS Enterprise وArcPy مع مساعد AI محلي بدون كشف بيانات السجل.`;
+    return `${analysis.executiveBrief}\n\nصياغة للعرض: يمكن داخل المنظومة المغلقة ربط ArcGIS Enterprise وArcPy مع بن دايل AI محلي لتقديم نفس التجربة بصلاحيات مؤسسية.`;
   }
   if (includesAny(q, ['مخاطر', 'خطر', 'سيول', 'قيود', 'تعارض'])) {
-    return `تحليل المخاطر للقطعة ${parcel.id}: مستوى المخاطر ${parcel.riskLevel}، ومؤشر المخاطر ${analysis.riskScore}/100.\n\n${analysis.warnings.join('\n')}\n\nالإجراء المقترح: ${analysis.recommendedActions[2]}`;
+    const warnings = analysis.warnings.length ? analysis.warnings.join('\n') : 'لا توجد تنبيهات عالية حالياً، لكن يوصى بمراجعة الطبقات قبل القرار النهائي.';
+    return `تحليل المخاطر للقطعة ${parcel.id}: مستوى المخاطر ${parcel.riskLevel}، ومؤشر المخاطر ${analysis.riskScore}/100.\n\n${warnings}\n\nالإجراء المقترح: ${analysis.recommendedActions[2]}`;
   }
   if (includesAny(q, ['قيمة', 'سعر', 'استثمار', 'عوائد', 'فرصة'])) {
-    return `كمؤشر استثماري ديمو: القيمة التقديرية ${formatSar(parcel.estimatedValueSar)}، ومؤشر القيمة "${analysis.valueIndicator}"، وقابلية التطوير "${analysis.developmentPotential}" بدرجة ${analysis.overallScore}/100. لا تعتبر هذه قيمة رسمية؛ هي فقط لإظهار طريقة التحليل.`;
+    return `كمؤشر استثماري: القيمة التقديرية ${formatSar(parcel.estimatedValueSar)}، ومؤشر القيمة "${analysis.valueIndicator}"، وقابلية التطوير "${analysis.developmentPotential}" بدرجة ${analysis.overallScore}/100. هذه قراءة تحليلية أولية وتحتاج اعتماد القنوات الرسمية قبل أي قرار.`;
   }
   if (includesAny(q, ['ليش', 'لماذا', 'سبب', 'كيف حسبت', 'درجة'])) {
     return `سبب الدرجة ${analysis.overallScore}/100 هو دمج عدة مؤشرات: الوصول ${analysis.accessibilityScore}/100، التنظيم ${analysis.regulationScore}/100، المخاطر ${analysis.riskScore}/100، وجودة البيانات ${analysis.dataQualityScore}/100.\n\nأبرز الملاحظات:\n${analysis.findings.map((f) => `- ${f}`).join('\n')}`;
@@ -28,5 +29,6 @@ export function answerQuestion(question: string, parcel: Parcel | null, analysis
   if (includesAny(q, ['تقرير', 'اطبع', 'pdf'])) {
     return 'تقدر تضغط زر "تقرير تنفيذي" في لوحة القطعة. التقرير الحالي HTML قابل للطباعة، وفي النسخة الداخلية نقدر نحوله PDF رسمي مع شعار الجهة وتوقيع رقمي.';
   }
-  return `أنا بن دايل. تحليلي للقطعة ${parcel.id}: ${analysis.summary}\n\nأهم ٣ نقاط:\n1) ${analysis.findings[0]}\n2) ${analysis.findings[2]}\n3) ${analysis.warnings[0]}\n\nاسألني مثلاً: "اعطني ملخص للإدارة" أو "ما المخاطر؟" أو "ليش الدرجة كذا؟"`;
+  const caution = analysis.warnings[0] ?? 'راجع طبقات الموقع قبل اتخاذ القرار النهائي.';
+  return `أنا بن دايل AI. تحليلي للقطعة ${parcel.id}: ${analysis.summary}\n\nأهم ٣ نقاط:\n1) ${analysis.findings[0]}\n2) ${analysis.findings[2]}\n3) ${caution}\n\nاسألني مثلاً: "اعطني ملخص للإدارة" أو "ما المخاطر؟" أو "ليش الدرجة كذا؟"`;
 }

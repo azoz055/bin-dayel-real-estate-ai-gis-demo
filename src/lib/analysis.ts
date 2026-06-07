@@ -26,12 +26,11 @@ export function analyzeParcel(parcel: Parcel): AnalysisResult {
     `القطعة تقع في حي ${parcel.district} ضمن تصنيف ${parcel.zoning}.`,
     `المساحة ${parcel.areaSqm.toLocaleString('ar-SA')} م² بواجهة ${parcel.frontageM.toLocaleString('ar-SA')} م وعمق تقريبي ${parcel.depthM.toLocaleString('ar-SA')} م.`,
     parcel.distanceToMainRoadM <= 150 ? 'قرب ممتاز من طريق رئيسي يعزز سهولة الوصول.' : parcel.distanceToMainRoadM <= 500 ? 'القرب من الطريق الرئيسي جيد ويحتاج دراسة مداخل.' : 'المسافة عن الطريق الرئيسي مرتفعة نسبياً وقد تؤثر على الجاذبية.',
-    parcel.distanceToMetroM <= 700 ? 'قريبة من محور نقل عام ديمو، وهذا يرفع جاذبية التطوير.' : 'لا توجد محطة نقل عام قريبة ضمن نطاق الديمو.',
-    `قيمة تقديرية ديمو: ${formatSar(parcel.estimatedValueSar)}.`
+    parcel.distanceToMetroM <= 700 ? 'قريبة من محور نقل عام، وهذا يرفع جاذبية التطوير.' : 'لا توجد محطة نقل عام قريبة ضمن النطاق الحالي.',
+    `قيمة تقديرية: ${formatSar(parcel.estimatedValueSar)}.`
   ];
   const warnings = [
-    'هذه بيانات ديمو وليست بيانات سجل عقاري رسمية.',
-    ...(parcel.riskLevel !== 'منخفض' ? [`يوجد مستوى مخاطر ${parcel.riskLevel} ويحتاج تحقق من طبقات المخاطر الرسمية.`] : []),
+    ...(parcel.riskLevel !== 'منخفض' ? [`يوجد مستوى مخاطر ${parcel.riskLevel} ويحتاج تحقق من طبقات المخاطر.`] : []),
     ...(parcel.dataQuality < 82 ? ['جودة البيانات أقل من المستوى المثالي؛ يفضل مراجعة الحدود والصفات قبل القرار.'] : [])
   ];
   const recommendedActions = [
@@ -41,7 +40,7 @@ export function analyzeParcel(parcel: Parcel): AnalysisResult {
     'مراجعة الصلاحيات قبل مشاركة أي بيانات حقيقية.'
   ];
   const summary = `تقييم القطعة ${parcel.id}: قابلية التطوير ${developmentPotential} بدرجة ${overallScore}/100. الاستخدام ${parcel.landUse}، المخاطر ${parcel.riskLevel}، والوصول ${parcel.roadAccess}.`;
-  const executiveBrief = `ملخص تنفيذي: القطعة ${parcel.name} في ${parcel.district} تظهر كفرصة ${developmentPotential} للتطوير حسب بيانات الديمو. أهم عوامل القوة: التصنيف ${parcel.zoning}، مساحة ${parcel.areaSqm.toLocaleString('ar-SA')} م²، ومؤشر وصول ${accessibilityScore}/100. أهم نقطة مراجعة: مستوى المخاطر ${parcel.riskLevel} وجودة البيانات ${dataQualityScore}/100.`;
+  const executiveBrief = `ملخص تنفيذي: القطعة ${parcel.name} في ${parcel.district} تظهر كفرصة ${developmentPotential} للتطوير. أهم عوامل القوة: التصنيف ${parcel.zoning}، مساحة ${parcel.areaSqm.toLocaleString('ar-SA')} م²، ومؤشر وصول ${accessibilityScore}/100. أهم نقطة مراجعة: مستوى المخاطر ${parcel.riskLevel} وجودة البيانات ${dataQualityScore}/100.`;
   return { parcelId: parcel.id, overallScore, developmentPotential, riskScore, accessibilityScore, regulationScore, dataQualityScore, valueIndicator, summary, findings, warnings, recommendedActions, executiveBrief };
 }
 

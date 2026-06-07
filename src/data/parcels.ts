@@ -22,7 +22,7 @@ function makeParcel(
   const w = Math.sqrt(areaSqm) / 111_320 * 1.05;
   return {
     id: `RYD-${String(id).padStart(4, '0')}`,
-    name: `قطعة ديمو ${String(id).padStart(2, '0')}`,
+    name: `قطعة ${String(id).padStart(2, '0')}`,
     district,
     coordinates: [
       [lat - h, lng - w],
@@ -93,6 +93,6 @@ export const zoningZones = [
 ];
 
 export const riskZones = [
-  { id: 'R-01', name: 'نطاق سيول ديمو', level: 'متوسط', color: '#ef4444', center: [24.777, 46.661] as [number, number], radiusM: 850 },
+  { id: 'R-01', name: 'نطاق سيول', level: 'متوسط', color: '#ef4444', center: [24.777, 46.661] as [number, number], radiusM: 850 },
   { id: 'R-02', name: 'نطاق ضوضاء طريق رئيسي', level: 'منخفض', color: '#f97316', center: [24.757, 46.622] as [number, number], radiusM: 650 }
 ];

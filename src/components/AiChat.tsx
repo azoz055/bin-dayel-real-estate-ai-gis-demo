@@ -15,7 +15,7 @@ export default function AiChat({ messages, onSend }: Props) {
   }
   return (
     <div className="chat-card">
-      <div className="chat-head"><div><Bot size={22}/><h3>بن دايل AI</h3></div><span><Sparkles size={14}/> محلي/ديمو</span></div>
+      <div className="chat-head"><div><Bot size={22}/><h3>بن دايل AI</h3></div><span><Sparkles size={14}/> مساعد ذكي</span></div>
       <div className="messages">
         {messages.map((m, i) => <div className={`message ${m.role}`} key={i}>{m.content}</div>)}
       </div>
