@@ -51,21 +51,22 @@ const risks: Parcel['riskLevel'][] = ['منخفض', 'متوسط', 'مرتفع'];
 const accesses: Parcel['roadAccess'][] = ['مباشر', 'قريب', 'داخلي'];
 const owners: Parcel['ownerType'][] = ['خاص', 'حكومي', 'استثماري'];
 
-export const parcels: Parcel[] = Array.from({ length: 72 }, (_, i) => {
-  const row = Math.floor(i / 9);
-  const col = i % 9;
-  const lat = 24.755 + row * 0.0042 + (col % 2) * 0.00055;
-  const lng = 46.61 + col * 0.0062 + (row % 2) * 0.00045;
-  const landUse = landUses[(i + row) % landUses.length];
+export const parcels: Parcel[] = Array.from({ length: 216 }, (_, i) => {
+  const row = Math.floor(i / 18);
+  const col = i % 18;
+  const isPremium = i % 19 === 4 || i % 23 === 7;
+  const lat = 24.748 + row * 0.0032 + (col % 3) * 0.0005;
+  const lng = 46.598 + col * 0.00345 + (row % 2) * 0.00042;
+  const landUse = isPremium ? (i % 2 === 0 ? 'استثماري' : 'مختلط') : landUses[(i + row) % landUses.length];
   const district = districts[(row + col) % districts.length];
-  const riskLevel = risks[(i + (col > 6 ? 1 : 0)) % risks.length];
-  const area = 520 + ((i * 137) % 3900);
-  const frontage = 18 + ((i * 7) % 38);
+  const riskLevel = isPremium ? 'منخفض' : risks[(i + (col > 13 ? 1 : 0)) % risks.length];
+  const area = isPremium ? 2_800 + ((i * 211) % 4_200) : 620 + ((i * 137) % 4_900);
+  const frontage = isPremium ? 36 + ((i * 5) % 28) : 18 + ((i * 7) % 42);
   const depth = Math.round(area / frontage);
-  const mainRoad = 35 + ((i * 53) % 920);
-  const metro = 140 + ((i * 89) % 3100);
-  const quality = 72 + ((i * 11) % 27);
-  const value = Math.round(area * (2200 + ((i * 317) % 4600)));
+  const mainRoad = isPremium ? 25 + ((i * 17) % 115) : 35 + ((i * 53) % 980);
+  const metro = isPremium ? 120 + ((i * 31) % 520) : 160 + ((i * 89) % 3_600);
+  const quality = isPremium ? 92 + (i % 7) : 72 + ((i * 11) % 27);
+  const value = Math.round(area * (isPremium ? 6_200 + ((i * 127) % 2_300) : 2_400 + ((i * 317) % 4_800)));
   return makeParcel(
     i + 1,
     lat,
@@ -74,8 +75,8 @@ export const parcels: Parcel[] = Array.from({ length: 72 }, (_, i) => {
     landUse,
     landUse === 'مختلط' ? 'M-3 تطوير مختلط' : landUse === 'تجاري' ? 'C-2 تجاري محوري' : landUse === 'استثماري' ? 'INV-1 استثماري' : landUse === 'خدمات' ? 'SVC خدمات عامة' : 'R-2 سكني متوسط الكثافة',
     riskLevel,
-    accesses[(i + 2) % accesses.length],
-    owners[(i + 1) % owners.length],
+    isPremium ? 'مباشر' : accesses[(i + 2) % accesses.length],
+    isPremium ? 'استثماري' : owners[(i + 1) % owners.length],
     area,
     frontage,
     depth,

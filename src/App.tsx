@@ -40,7 +40,7 @@ const tools: Array<{ id: WorkspaceTool; label: string; hint: string; icon: typeo
 
 export default function App() {
   const [selectedParcel, setSelectedParcel] = useState<Parcel | null>(parcels[10]);
-  const [panelOpen, setPanelOpen] = useState(true);
+  const [panelOpen, setPanelOpen] = useState(false);
   const [toolMenuOpen, setToolMenuOpen] = useState(false);
   const [activeTool, setActiveTool] = useState<WorkspaceTool>('ai');
   const analysis = useMemo(() => selectedParcel ? analyzeParcel(selectedParcel) : null, [selectedParcel]);

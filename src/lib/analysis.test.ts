@@ -23,4 +23,18 @@ describe('analyzeParcel', () => {
     expect(answer).toContain(parcel.district);
     expect(answer).toContain('ArcGIS Enterprise');
   });
+
+  it('renders a dense enterprise-scale parcel layer with many land options', () => {
+    expect(parcels.length).toBeGreaterThanOrEqual(180);
+    expect(new Set(parcels.map((parcel) => parcel.id)).size).toBe(parcels.length);
+  });
+
+  it('contains several premium low-risk high-score lands for stronger comparison', () => {
+    const premium = parcels.filter((parcel) => {
+      const score = analyzeParcel(parcel).overallScore;
+      return score >= 86 && parcel.riskLevel === 'منخفض' && parcel.areaSqm >= 2_500;
+    });
+
+    expect(premium.length).toBeGreaterThanOrEqual(8);
+  });
 });
